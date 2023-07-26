@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidIntern</string>
+    <string name="increase_counter">Increase counter</string>
+    <string name="counter">Clicks: %d</string>
 </resources>
