@@ -1,6 +1,5 @@
 package sem.ua.androidintern
 
-
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -87,7 +86,5 @@ class UserActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
-
-
     }
 }
