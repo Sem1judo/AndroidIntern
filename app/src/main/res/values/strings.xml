@@ -11,4 +11,6 @@
     <string name="user_details_birth">Birth: %s</string>
     <string name="add_user">Add User</string>
     <string name="age">Age</string>
+    <string name="image">image</string>
+    <string name="shibe">Shibe</string>
 </resources>
