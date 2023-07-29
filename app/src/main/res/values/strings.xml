@@ -8,4 +8,7 @@
     <string name="user_details_name">Name: %s</string>
     <string name="user_details_age">Age: %d</string>
     <string name="user_details_is_student">Is Student: %s</string>
+    <string name="user_details_birth">Birth: %s</string>
+    <string name="add_user">Add User</string>
+    <string name="age">Age</string>
 </resources>

@@ -5,13 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sem.ua.androidintern.databinding.ItemUserBinding
 import sem.ua.androidintern.model.User
+
 class UserAdapter(
-    private val userList: List<User>,
+    private var userList: MutableList<User>,
     private val onClickListener: (User) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     private val switchStates = mutableMapOf<Long, Boolean>()
 
+    fun addUser(user: User) {
+        userList.add(user)
+        notifyItemInserted(userList.size - 1)
+    }
     init {
         switchStates.putAll(userList.associateBy({ it.userId }, { it.isStudent }))
     }
@@ -25,12 +30,12 @@ class UserAdapter(
         val user = userList[position]
         holder.bind(user)
 
-        holder.binding.studentSwitch.setOnCheckedChangeListener(null)
+        holder.binding.isStudent.setOnCheckedChangeListener(null)
 
         val isStudent = switchStates[user.userId] ?: false
-        holder.binding.studentSwitch.isChecked = isStudent
+        holder.binding.isStudent.isChecked = isStudent
 
-        holder.binding.studentSwitch.setOnCheckedChangeListener { _, isChecked ->
+        holder.binding.isStudent.setOnCheckedChangeListener { _, isChecked ->
             switchStates[user.userId] = isChecked
             user.isStudent = isChecked
         }
@@ -42,10 +47,13 @@ class UserAdapter(
 
     override fun getItemCount(): Int = userList.size
 
-    inner class UserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class UserViewHolder(val binding: ItemUserBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.nameTv.text = user.name
             binding.ageTv.text = user.age.toString()
+            binding.dateOfBirthTv.text = user.dateOfBirth
+            binding.isStudent.text = user.isStudent.toString()
         }
     }
 }

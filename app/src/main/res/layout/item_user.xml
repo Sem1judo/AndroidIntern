@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:paddingVertical="8dp"
     android:layout_height="wrap_content">
 
     <TextView
@@ -21,11 +22,22 @@
         android:gravity="center_vertical"
         android:textColor="#000000"
         android:textSize="16sp" />
+    <TextView
+        android:id="@+id/dateOfBirthTv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/studentSwitch"
+        android:id="@+id/isStudent"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
+
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

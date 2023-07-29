@@ -2,6 +2,7 @@ package sem.ua.androidintern.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,9 @@ import sem.ua.androidintern.R
 import sem.ua.androidintern.databinding.FragmentUserDetailsBinding
 import sem.ua.androidintern.model.User
 
+
 class UserDetailsFragment : Fragment() {
     private lateinit var binding: FragmentUserDetailsBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -20,8 +21,6 @@ class UserDetailsFragment : Fragment() {
         binding = FragmentUserDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,17 +34,20 @@ class UserDetailsFragment : Fragment() {
         val userAge = sharedPreferences?.getInt("userAge", 0) ?: 0
         val userId = sharedPreferences?.getLong("userId", 0) ?: 0
         val userIsStudent = sharedPreferences?.getBoolean("userIsStudent", false) ?: false
+        val userDateOfBirth = sharedPreferences?.getString("userDateOfBirth", "") ?: ""
 
-        return User(userId, userName, userAge, userIsStudent)
+        return User(userId, userName, userAge, userDateOfBirth, userIsStudent)
     }
 
     private fun displayUserDetails(user: User) {
         val nameText = getString(R.string.user_details_name, user.name)
         val ageText = getString(R.string.user_details_age, user.age)
         val isStudentText = getString(R.string.user_details_is_student, user.isStudent.toString())
+        val birthText = getString(R.string.user_details_birth, user.dateOfBirth)
 
         binding.nameTv.text = nameText
         binding.ageTv.text = ageText
         binding.isStudent.text = isStudentText
+        binding.dateOfBirthTv.text = birthText
     }
 }
