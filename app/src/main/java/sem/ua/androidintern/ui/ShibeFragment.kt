@@ -1,34 +1,34 @@
 package sem.ua.androidintern.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import sem.ua.androidintern.R
+import sem.ua.androidintern.MainActivity
 import sem.ua.androidintern.adapter.ShibeAdapter
+import sem.ua.androidintern.databinding.FragmentShibeBinding
 import sem.ua.androidintern.retrofit.ShibeService
-
 
 class ShibeFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: FragmentShibeBinding
     private lateinit var adapter: ShibeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_shibe, container, false)
-        recyclerView = view.findViewById(R.id.recyclerView)
-        return view
+    ): View {
+        binding = FragmentShibeBinding.inflate(inflater, container, false)
+
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,9 +38,9 @@ class ShibeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = ShibeAdapter()
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerView.adapter = adapter
+        adapter = ShibeAdapter(requireActivity() as MainActivity)
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerView.adapter = adapter
     }
 
     private fun fetchData() {
@@ -53,7 +53,7 @@ class ShibeFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = service.getShibes(count = 10, urls = true, httpsUrls = true)
+                val response = service.getShibes(count = 100, urls = true, httpsUrls = true)
                 if (response.isSuccessful) {
                     val shibes = response.body()
                     shibes?.let { shibeUrls ->
@@ -61,12 +61,11 @@ class ShibeFragment : Fragment() {
                             adapter.submitList(shibeUrls)
                         }
                     }
-                } else {
-                    // Handle error here if needed
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
 }

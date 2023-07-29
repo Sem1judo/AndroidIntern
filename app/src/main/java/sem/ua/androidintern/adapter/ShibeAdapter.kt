@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import sem.ua.androidintern.MainActivity
 import sem.ua.androidintern.R
 
-class ShibeAdapter : ListAdapter<String, ShibeAdapter.ShibeViewHolder>(ShibeDiffCallback()) {
+class ShibeAdapter(private val activity: MainActivity) :
+    ListAdapter<String, ShibeAdapter.ShibeViewHolder>(ShibeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShibeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.shibe_item, parent, false)
@@ -20,11 +22,25 @@ class ShibeAdapter : ListAdapter<String, ShibeAdapter.ShibeViewHolder>(ShibeDiff
     override fun onBindViewHolder(holder: ShibeViewHolder, position: Int) {
         val shibeUrl = getItem(position)
         holder.bind(shibeUrl)
+
+        val isFavorite = activity.isFavorite(shibeUrl)
+        holder.favoriteIcon.setImageResource(
+            if (isFavorite) android.R.drawable.ic_input_add
+            else  android.R.drawable.ic_delete
+        )
+        holder.favoriteIcon.setOnClickListener {
+            if (isFavorite) {
+                activity.removeFavorite(shibeUrl)
+            } else {
+                activity.addFavorite(shibeUrl)
+            }
+            notifyItemChanged(position)
+        }
     }
 
     inner class ShibeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.imageView)
-
+        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+        val favoriteIcon: ImageView = itemView.findViewById(R.id.favoriteIcon)
         fun bind(shibeUrl: String) {
             Picasso.get().load(shibeUrl).into(imageView)
         }
