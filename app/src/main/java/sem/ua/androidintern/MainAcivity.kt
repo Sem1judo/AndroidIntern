@@ -2,18 +2,21 @@ package sem.ua.androidintern
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import sem.ua.androidintern.databinding.ActivityUserBinding
+import sem.ua.androidintern.ui.SharedViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserBinding
-
-    private val favoriteList = mutableListOf<String>()
-
+    private lateinit var sharedViewModel: SharedViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
 
         val pagerAdapter = PagerAdapter(supportFragmentManager, lifecycle)
         binding.viewPager.adapter = pagerAdapter
@@ -27,19 +30,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
-    fun getFavoriteList(): List<String> {
-        return favoriteList
-    }
-
-    fun addFavorite(shibeUrl: String) {
-        favoriteList.add(shibeUrl)
-    }
-
-    fun removeFavorite(shibeUrl: String) {
-        favoriteList.remove(shibeUrl)
-    }
-
-    fun isFavorite(shibeUrl: String): Boolean {
-        return favoriteList.contains(shibeUrl)
+    fun getSharedViewModel(): SharedViewModel {
+        return sharedViewModel
     }
 }

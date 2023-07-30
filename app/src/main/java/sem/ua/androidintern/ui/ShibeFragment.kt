@@ -15,7 +15,6 @@ import sem.ua.androidintern.MainActivity
 import sem.ua.androidintern.adapter.ShibeAdapter
 import sem.ua.androidintern.databinding.FragmentShibeBinding
 import sem.ua.androidintern.retrofit.ShibeService
-
 class ShibeFragment : Fragment() {
 
     private lateinit var binding: FragmentShibeBinding
@@ -26,8 +25,6 @@ class ShibeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentShibeBinding.inflate(inflater, container, false)
-
-
         return binding.root
     }
 
@@ -38,7 +35,7 @@ class ShibeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = ShibeAdapter(requireActivity() as MainActivity)
+        adapter = ShibeAdapter((requireActivity() as MainActivity).getSharedViewModel())
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.adapter = adapter
     }
@@ -67,5 +64,4 @@ class ShibeFragment : Fragment() {
             }
         }
     }
-
 }

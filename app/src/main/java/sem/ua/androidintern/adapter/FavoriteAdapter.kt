@@ -8,11 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import sem.ua.androidintern.R
 
-class FavoriteAdapter(private val favoriteList: List<String>) :
+class FavoriteAdapter :
     RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
+    private var favoriteList = mutableListOf<String>()
+
+    fun updateFavorites(newFavorites: List<String>) {
+        favoriteList.clear()
+        favoriteList.addAll(newFavorites)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.favorite_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.favorite_item, parent, false)
         return FavoriteViewHolder(view)
     }
 

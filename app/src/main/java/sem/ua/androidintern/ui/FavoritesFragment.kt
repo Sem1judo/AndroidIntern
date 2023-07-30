@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import sem.ua.androidintern.MainActivity
 import sem.ua.androidintern.adapter.FavoriteAdapter
 import sem.ua.androidintern.databinding.FragmentFavoritesBinding
-
 class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var adapter: FavoriteAdapter
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +26,14 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-    }
 
+        sharedViewModel = (requireActivity() as MainActivity).getSharedViewModel()
+        sharedViewModel.getFavoriteList().observe(viewLifecycleOwner) { favorites ->
+            adapter.updateFavorites(favorites)
+        }
+    }
     private fun setupRecyclerView() {
-        val favoriteList = (requireActivity() as MainActivity).getFavoriteList()
-        adapter = FavoriteAdapter(favoriteList)
+        adapter = FavoriteAdapter()
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.adapter = adapter
     }

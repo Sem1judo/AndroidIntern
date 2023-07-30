@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import sem.ua.androidintern.MainActivity
 import sem.ua.androidintern.R
+import sem.ua.androidintern.ui.SharedViewModel
 
-class ShibeAdapter(private val activity: MainActivity) :
+class ShibeAdapter(private val sharedViewModel: SharedViewModel) :
     ListAdapter<String, ShibeAdapter.ShibeViewHolder>(ShibeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShibeViewHolder {
@@ -23,16 +23,16 @@ class ShibeAdapter(private val activity: MainActivity) :
         val shibeUrl = getItem(position)
         holder.bind(shibeUrl)
 
-        val isFavorite = activity.isFavorite(shibeUrl)
+        val isFavorite = sharedViewModel.isFavorite(shibeUrl)
         holder.favoriteIcon.setImageResource(
-            if (isFavorite) android.R.drawable.ic_input_add
-            else  android.R.drawable.ic_delete
+            if (isFavorite) android.R.drawable.star_big_off
+            else android.R.drawable.star_off
         )
         holder.favoriteIcon.setOnClickListener {
             if (isFavorite) {
-                activity.removeFavorite(shibeUrl)
+                sharedViewModel.removeFavorite(shibeUrl)
             } else {
-                activity.addFavorite(shibeUrl)
+                sharedViewModel.addFavorite(shibeUrl)
             }
             notifyItemChanged(position)
         }
